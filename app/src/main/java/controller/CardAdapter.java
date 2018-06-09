@@ -19,39 +19,25 @@ import nyc.c4q.androidretake.R;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
-    List<CardDrawImage> newCard = new ArrayList<>();
-    private Context context;
+    private List<String> newCard;
 
-    public CardAdapter(List<CardDrawImage> newcard) {
-        newcard = new ArrayList<>();
+
+    public CardAdapter(List<String> newcard) {
         this.newCard = newcard;
     }
 
 
     @Override
     public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View childView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_item, parent,false);
-        context = parent.getContext();
+        View childView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recyclerview_item, parent, false);
+        //context = parent.getContext();
         return new CardViewHolder(childView);
     }
 
     @Override
-    public void onBindViewHolder( CardViewHolder holder, int position) {
-        //CardDraw cardDraw = newCard.get(position);
-        final String thumbnail = newCard.get(position).getCards().toString();
-
-        Picasso.with(context)
-                .load(thumbnail)
-                .into(holder.image1);
-        Picasso.with(context)
-                .load(thumbnail)
-                .into(holder.image2);
-        Picasso.with(context)
-                .load(thumbnail)
-                .into(holder.image3);
-        Picasso.with(context)
-                .load(thumbnail)
-                .into(holder.image4);
+    public void onBindViewHolder(CardViewHolder holder, int position) {
+        holder.bindImage(newCard.get(position));
 
     }
 
@@ -60,22 +46,25 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         return newCard.size();
     }
 
-    class CardViewHolder extends RecyclerView.ViewHolder{
+    public void addAll(List<String> cardImageUrl) {
+        newCard.addAll(cardImageUrl);
+    }
+
+    static class CardViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView image1;
-        private ImageView image2;
-        private ImageView image3;
-        private ImageView image4;
+
 
         CardViewHolder(View itemView) {
             super(itemView);
 
             image1 = itemView.findViewById(R.id.image1);
-            image2 = itemView.findViewById(R.id.image2);
-            image3 = itemView.findViewById(R.id.image3);
-            image4 = itemView.findViewById(R.id.image4);
+
+        }
+
+        void bindImage(String newCard) {
+            Picasso.with(image1.getContext()).load(newCard).into(image1);
         }
     }
-
 
 }
