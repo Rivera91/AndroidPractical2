@@ -2,26 +2,49 @@ package model;
 
 public class CardDraw {
 
-    private Boolean success;
-    private String cards;
-    private String deck_id;
-    private int remaining;
+    private String image;
+    private String value;
+    private String suit;
+    private String code;
+    private CardImages images;
 
-    public Boolean getSuccess() {
-        return success;
+
+    public CardDraw (String image, String value, String suit, String code) {
+        this.image = image;
+        this.value = value;
+        this.suit = suit;
+        this.code = code;
     }
 
-    public String getCards() {
-        return cards;
+    public String getImage() {
+        return image;
     }
 
-    public String getDeck_id() {
-        return deck_id;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public int getRemaining() {
-        return remaining;
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public String getSuit() {
+        return suit;
+    }
+
+    public void setSuit(String suit) {
+        this.suit = suit;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }
-
-

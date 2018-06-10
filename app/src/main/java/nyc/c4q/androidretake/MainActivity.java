@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.List;
 import backend.CardApiResponse;
 import backend.CardApiService;
 import controller.CardAdapter;
-import model.CardDrawImage;
+import model.CardDraw;
 import model.CardShuffle;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,9 +29,18 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "JSON?";
     private CardApiService cardService;
-    Button shuffle;
-    Button draw;
-    EditText editText;
+    private Button shuffle;
+    private Button draw;
+    private EditText editText;
+    private TextView remaining;
+    private String shuffledId;
+    private int remainingCards;
+    private Retrofit retrofit;
+    private RecyclerView recyclerView;
+    private CardAdapter adapter;
+
+
+
 
 
     @Override
@@ -44,24 +54,31 @@ public class MainActivity extends AppCompatActivity {
         editText = (EditText) findViewById(R.id.editText);
 
 
+//         Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl(CardApiService.BASE_URL)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+
+
         shuffle.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
-
-        Retrofit retrofit = new Retrofit.Builder()
+                retrofit = new Retrofit.Builder()
                 .baseUrl(CardApiService.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        cardService = retrofit.create(CardApiService.class);
 
+        CardApiService cardApiService = retrofit.create(CardApiService.class);
         Call<CardShuffle>shuffleDeck = cardService.getNewShuffle();
         shuffleDeck.enqueue(new Callback<CardShuffle>() {
+
             @Override
             public void onResponse(Call<CardShuffle> call, Response<CardShuffle> response) {
-                Log.e(TAG, "onResponse: " + response.body().getDeck_id());
-                Log.e(TAG, "onResponse: " + response.body().getRemaining());
+                shuffledId = response.body().getDeck_id();
+                remainingCards = response.body().getRemaining();
+                Log.d("shuffled cards", shuffledId + " " + remainingCards);
+                remaining.setText("Cards remaining: {remainingCard+ ");
             }
 
             @Override
@@ -105,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call<CardApiResponse> call, Response<CardApiResponse> response) {
-                List<String> cardImageUrl = response.body().getCards();
+                List <CardDraw> cardImageUrl = response.body().getCards();
                 adapter.addAll(cardImageUrl);
                 adapter.notifyDataSetChanged();
             }
@@ -113,9 +130,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<CardApiResponse> call, Throwable t) {
 
-               // Log.e(TAG, "onResponse: " + t.toString());
+                Log.e(TAG, "onResponse: " + t.toString());
 
-                Toast.makeText(MainActivity.this,"Error",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,"Error",Toast.LENGTH_LONG).show();
 
 
             }

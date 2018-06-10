@@ -1,7 +1,6 @@
 package controller;
 
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,16 +9,14 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import model.CardDraw;
-import model.CardDrawImage;
 import nyc.c4q.androidretake.R;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
-    private List<String> newCard;
+     List<String> newCard;
 
 
     public CardAdapter(List<String> newcard) {
@@ -37,6 +34,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     @Override
     public void onBindViewHolder(CardViewHolder holder, int position) {
+        String cards = newCard.get(position);
         holder.bindImage(newCard.get(position));
 
     }
@@ -46,8 +44,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         return newCard.size();
     }
 
-    public void addAll(List<String> cardImageUrl) {
-        newCard.addAll(cardImageUrl);
+    public void addAll(List<CardDraw> newCard) {
+        newCard.addAll(newCard);
+        notifyDataSetChanged();
     }
 
     static class CardViewHolder extends RecyclerView.ViewHolder {

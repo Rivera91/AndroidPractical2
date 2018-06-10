@@ -4,24 +4,35 @@ import java.util.List;
 
 public class CardApiResponse {
 
-    private Boolean success;
+    private boolean success;
+    private boolean shuffled;
     private List<String> cards;
     private String deck_id;
     private int remaining;
 
-    public CardApiResponse(Boolean success, List<String> cards, String deck_id, int remaining) {
+    public CardApiResponse(boolean success, boolean shuffled,  List<String> cards, String deck_id, int remaining,List<String> images) {
         this.success = success;
+        this.shuffled = shuffled;
         this.cards = cards;
         this.deck_id = deck_id;
         this.remaining = remaining;
+
     }
 
-    public Boolean getSuccess() {
+    public boolean getSuccess() {
         return success;
     }
 
-    public void setSuccess(Boolean success) {
+    public void setSuccess(boolean success) {
         this.success = success;
+    }
+
+    public boolean getShuffled(){
+        return shuffled;
+    }
+
+    public void setShuffled(boolean shuffled){
+        this.shuffled = shuffled;
     }
 
     public List<String> getCards() {
@@ -47,4 +58,6 @@ public class CardApiResponse {
     public void setRemaining(int remaining) {
         this.remaining = remaining;
     }
+
+
 }

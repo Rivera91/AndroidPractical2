@@ -1,11 +1,14 @@
 package model;
 
+import java.util.List;
+
 public class CardShuffle {
 
     private String success;
     private String deck_id;
     private Boolean shuffled;
     private int remaining;
+    private List<CardDraw> cards;
 
     public String getSuccess() {
         return success;
